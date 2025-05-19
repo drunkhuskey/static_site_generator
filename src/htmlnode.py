@@ -17,3 +17,18 @@ class HTMLNode:
         for key in self.props:
             prop_string += f" {key}=\"{self.props[key]}\""
         return prop_string
+    
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        super().__init__(tag, value, None, props)
+        
+    def to_html(self):
+        if self.value == None:
+            raise ValueError
+        if self.tag == None:
+            return self.value
+        text = f"<{self.tag}"
+        if self.props != None:
+            text += self.props_to_html()
+        text += f">{self.value}</{self.tag}>"
+        return text
